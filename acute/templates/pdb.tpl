@@ -15,6 +15,9 @@ spec:
 {{- if .Values.podDisruptionBudget.maxUnavailable }}
   maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
 {{- end }}
+{{- with .Values.podDisruptionBudget.unhealthyPodEvictionPolicy }}
+  unhealthyPodEvictionPolicy: {{ . }}
+{{- end }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 8 }}

@@ -44,12 +44,202 @@
       "type": "integer",
       "minimum": 0
     },
+    "parallelism": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "completions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "completionMode": {
+      "type": "string",
+      "enum": [
+        "NonIndexed",
+        "Indexed"
+      ]
+    },
+    "activeDeadlineSeconds": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ttlSecondsAfterFinished": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "podFailurePolicy": {
+      "type": "object"
+    },
+    "startingDeadlineSeconds": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "minReadySeconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "revisionHistoryLimit": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "progressDeadlineSeconds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "paused": {
+      "type": "boolean"
+    },
+    "ordinalsStart": {
+      "type": "integer",
+      "minimum": 0
+    },
     "podManagementPolicy": {
       "type": "string",
       "enum": [
         "OrderedReady",
         "Parallel"
       ]
+    },
+    "runtimeClassName": {
+      "type": "string"
+    },
+    "priorityClassName": {
+      "type": "string"
+    },
+    "schedulerName": {
+      "type": "string"
+    },
+    "dnsPolicy": {
+      "type": "string",
+      "enum": [
+        "ClusterFirst",
+        "ClusterFirstWithHostNet",
+        "Default",
+        "None"
+      ]
+    },
+    "dnsConfig": {
+      "type": "object"
+    },
+    "readinessGates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "conditionType"
+        ],
+        "properties": {
+          "conditionType": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "enableServiceLinks": {
+      "type": "boolean"
+    },
+    "topologySpreadConstraints": {
+      "type": "array"
+    },
+    "initcontainers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "image"
+        ],
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "restartPolicy": {
+            "type": "string",
+            "enum": [
+              "Always"
+            ]
+          },
+          "workingDir": {
+            "type": "string"
+          },
+          "terminationMessagePolicy": {
+            "type": "string",
+            "enum": [
+              "File",
+              "FallbackToLogsOnError"
+            ]
+          },
+          "terminationMessagePath": {
+            "type": "string"
+          },
+          "stdin": {
+            "type": "boolean"
+          },
+          "tty": {
+            "type": "boolean"
+          },
+          "image": {
+            "type": "object",
+            "required": [
+              "repository"
+            ],
+            "additionalProperties": true,
+            "properties": {
+              "repository": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tag": {
+                "type": "string"
+              },
+              "pullPolicy": {
+                "type": "string",
+                "enum": [
+                  "Always",
+                  "IfNotPresent",
+                  "Never"
+                ]
+              },
+              "command": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "containers": {
       "type": "array",
@@ -101,6 +291,52 @@
                 }
               }
             }
+          },
+          "resizePolicy": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "resourceName",
+                "restartPolicy"
+              ],
+              "additionalProperties": true,
+              "properties": {
+                "resourceName": {
+                  "type": "string",
+                  "enum": [
+                    "cpu",
+                    "memory"
+                  ]
+                },
+                "restartPolicy": {
+                  "type": "string",
+                  "enum": [
+                    "NotRequired",
+                    "RestartContainer"
+                  ]
+                }
+              }
+            }
+          },
+          "workingDir": {
+            "type": "string"
+          },
+          "terminationMessagePolicy": {
+            "type": "string",
+            "enum": [
+              "File",
+              "FallbackToLogsOnError"
+            ]
+          },
+          "terminationMessagePath": {
+            "type": "string"
+          },
+          "stdin": {
+            "type": "boolean"
+          },
+          "tty": {
+            "type": "boolean"
           },
           "service": {
             "type": "object",
@@ -332,6 +568,46 @@
         }
       }
     },
+    "podDisruptionBudget": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "minAvailable": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "maxUnavailable": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "unhealthyPodEvictionPolicy": {
+          "type": "string",
+          "enum": [
+            "IfHealthyBudget",
+            "AlwaysAllow"
+          ]
+        }
+      }
+    },
     "persistence": {
       "type": "object",
       "additionalProperties": true,
@@ -358,6 +634,26 @@
         "mountPath": {
           "type": "string",
           "minLength": 1
+        },
+        "claimRetentionPolicy": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "whenDeleted": {
+              "type": "string",
+              "enum": [
+                "Retain",
+                "Delete"
+              ]
+            },
+            "whenScaled": {
+              "type": "string",
+              "enum": [
+                "Retain",
+                "Delete"
+              ]
+            }
+          }
         }
       }
     }

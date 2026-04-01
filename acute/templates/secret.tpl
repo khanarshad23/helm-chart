@@ -14,6 +14,6 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 type: Opaque
-data:
-  {{- .Values.secretEnv.data | nindent 4 }}
+stringData:
+  {{- .Values.secretEnv.data | nindent 2 }}
 {{- end }}

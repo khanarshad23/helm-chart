@@ -29,7 +29,19 @@ failedJobsHistoryLimit: 1
 concurrencyPolicy: 'Allow'
 suspend: false
 backoffLimit: 6
+parallelism: 1
+completions: 1
+completionMode: 'NonIndexed'
+activeDeadlineSeconds:
+ttlSecondsAfterFinished:
+podFailurePolicy: {}
+startingDeadlineSeconds:
 timeZone: 'UTC'
+minReadySeconds: 0
+revisionHistoryLimit: 10
+progressDeadlineSeconds: 600
+paused: false
+ordinalsStart: 0
 
 ### Pod Setting
 
@@ -70,10 +82,31 @@ serviceAccount:
   annotations: {}
   name: ''
 
+runtimeClassName: ''
+priorityClassName: ''
+schedulerName: ''
+dnsPolicy: 'ClusterFirst'
+dnsConfig: {}
+readinessGates: []
+enableServiceLinks: true
+
 shareVolume: /var/log/acute
 
 ### initcontainers Setting
-initcontainers:
+initcontainers: []
+  # - name: sidecar-logger
+  #   restartPolicy: Always
+  #   workingDir: /work
+  #   image:
+  #     repository: fluent/fluent-bit
+  #     tag: '3.0'
+  #   livenessProbe: {}
+  #   readinessProbe: {}
+  #   startupProbe: {}
+  #   terminationMessagePolicy: File
+  #   terminationMessagePath: /dev/termination-log
+  #   stdin: false
+  #   tty: false
 
 containers:
   - name: nginx
@@ -83,6 +116,12 @@ containers:
       tag: '1.25-alpine'
       command: []
       args: []
+
+    workingDir: ''
+    terminationMessagePolicy: 'File'
+    terminationMessagePath: '/dev/termination-log'
+    stdin: false
+    tty: false
 
     securityContext: {}
       # capabilities:
@@ -99,6 +138,12 @@ containers:
       # requests:
       #   cpu: 100m
       #   memory: 128Mi
+
+    resizePolicy: []
+      # - resourceName: cpu
+      #   restartPolicy: NotRequired
+      # - resourceName: memory
+      #   restartPolicy: RestartContainer
 
     service:
       enabled: false
@@ -224,6 +269,9 @@ persistence:
   accessMode: ReadWriteOnce
   size: 10Gi
   mountPath: /data
+  claimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
 
 ## only available if kind is Deployment
 autoscaling:
@@ -295,6 +343,13 @@ tolerations: []
 ##
 affinity: {}
 
+topologySpreadConstraints: []
+# - maxSkew: 1
+#   topologyKey: topology.kubernetes.io/zone
+#   whenUnsatisfiable: DoNotSchedule
+#   labelSelector:
+#     matchLabels: {}
+
 hostAliases: []
 # - ip: "127.0.0.1"
 #   hostnames:
@@ -309,6 +364,7 @@ podDisruptionBudget:
   enabled: false
   # minAvailable: 50%
   # maxUnavailable: 25%
+  # unhealthyPodEvictionPolicy: AlwaysAllow
 
 NetworkPolicy:
   enabled: false

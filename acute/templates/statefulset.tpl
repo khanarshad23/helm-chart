@@ -21,6 +21,20 @@ spec:
   replicas: {{ .Values.replicaCount }}
   serviceName: {{ $fullName }}
   podManagementPolicy: {{ .Values.podManagementPolicy }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 10 }}
+  {{- with .Values.updateStrategy }}
+  updateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.persistence.claimRetentionPolicy }}
+  persistentVolumeClaimRetentionPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  ordinals:
+    start: {{ .Values.ordinalsStart | default 0 }}
+  {{- if gt (int .Values.minReadySeconds) 0 }}
+  minReadySeconds: {{ .Values.minReadySeconds }}
+  {{- end }}
   selector:
     matchLabels:
       {{- $selectorLabels | nindent 6 }}
@@ -42,12 +56,31 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "chart.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automount | default true }}
+      enableServiceLinks: {{ .Values.enableServiceLinks | default true }}
       {{- with .Values.podSecurityContext }}
-        securityContext:
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ . }}
+      {{- end }}
+      dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirst" }}
+      {{- with .Values.dnsConfig }}
+      dnsConfig:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.runtimeClassName }}
+      runtimeClassName: {{ . }}
+      {{- end }}
+      {{- with .Values.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
+      {{- with .Values.schedulerName }}
+      schedulerName: {{ . }}
+      {{- end }}
+      {{- with .Values.readinessGates }}
+      readinessGates:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       shareProcessNamespace: {{ .Values.shareProcessNamespace }}
       {{- if ( .Values.initcontainers | default false ) }}
@@ -60,6 +93,9 @@ spec:
           {{- end }}
           image: "{{ $init.image.repository }}:{{ $init.image.tag | default "latest" }}"
           imagePullPolicy: {{ $init.image.pullPolicy | default "IfNotPresent" }}
+          {{- with $init.workingDir }}
+          workingDir: {{ . }}
+          {{- end }}
           {{- with $init.image.command }}
           command:
           {{- toYaml . | nindent 12 }}
@@ -86,6 +122,29 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with $init.restartPolicy }}
+          restartPolicy: {{ . }}
+          {{- end }}
+          {{- with $init.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $init.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $init.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          terminationMessagePolicy: {{ $init.terminationMessagePolicy | default "File" }}
+          terminationMessagePath: {{ $init.terminationMessagePath | default "/dev/termination-log" }}
+          {{- if $init.stdin }}
+          stdin: true
+          {{- end }}
+          {{- if $init.tty }}
+          tty: true
+          {{- end }}
           volumeMounts:
             - name: sharevolume
               mountPath: {{ $shareVolume }}
@@ -107,6 +166,9 @@ spec:
           {{- end }}
           image: "{{ $containers.image.repository }}:{{ $containers.image.tag | default "latest" }}"
           imagePullPolicy: {{ $containers.image.pullPolicy | default "IfNotPresent" }}
+          {{- with $containers.workingDir }}
+          workingDir: {{ . }}
+          {{- end }}
           {{- with $containers.image.command }}
           command:
           {{- toYaml . | nindent 12 }}
@@ -133,6 +195,10 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with $containers.resizePolicy }}
+          resizePolicy:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- if and $containers.service ( $containers.service.enabled | default false ) }}
           ports:
             {{- range $port := $containers.service.ports }}
@@ -156,6 +222,14 @@ spec:
           {{- with $containers.lifecycle }}
           lifecycle:
             {{- toYaml . | nindent 12 }}
+          {{- end }}
+          terminationMessagePolicy: {{ $containers.terminationMessagePolicy | default "File" }}
+          terminationMessagePath: {{ $containers.terminationMessagePath | default "/dev/termination-log" }}
+          {{- if $containers.stdin }}
+          stdin: true
+          {{- end }}
+          {{- if $containers.tty }}
+          tty: true
           {{- end }}
           volumeMounts:
             - name: sharevolume
@@ -190,6 +264,10 @@ spec:
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}

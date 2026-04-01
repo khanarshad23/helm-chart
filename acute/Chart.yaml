@@ -6,6 +6,8 @@ sources:
   - https://github.com/novacaap/helm-charts
 keywords:
   - kubernetes
+  - kubernetes-1.33
+  - kubernetes-1.35
   - helm
   - deployment
   - statefulset
@@ -14,7 +16,7 @@ keywords:
 maintainers:
   - name: Kalpesh Patel
     email: kalpesh.br.patel@gmail.com
-kubeVersion: ">=1.27.0-0"
+kubeVersion: ">=1.33.0-0"
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -29,7 +31,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.1.0
+version: 1.2.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
