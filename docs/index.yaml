@@ -3,7 +3,7 @@ entries:
   acute:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-04-01T16:08:09.172878+05:30"
+    created: "2026-04-14T11:12:26.35271+05:30"
     description: Flexible chart for deploying apps as Deployment, StatefulSet, Job,
       or CronJob
     digest: e4c712e0a04d704890a6b4cce2193114ffceec3b0c38fecde685ffd8ee260ff6
@@ -30,7 +30,7 @@ entries:
     version: 1.2.0
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-04-01T16:08:09.172329+05:30"
+    created: "2026-04-14T11:12:26.35182+05:30"
     description: Flexible chart for deploying apps as Deployment, StatefulSet, Job,
       or CronJob
     digest: f5ab59aca6a94a2e6e00089fa1ed73ff9f487beeca464ea72cb1ce7e6b881d8e
@@ -55,7 +55,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-04-01T16:08:09.171706+05:30"
+    created: "2026-04-14T11:12:26.350661+05:30"
     description: A Helm chart for Kubernetes
     digest: d34e2d9612da205b7140567e678b2ada25d3db3c9d95cf1d170257a711910269
     name: acute
@@ -65,7 +65,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-04-01T16:08:09.170807+05:30"
+    created: "2026-04-14T11:12:26.350092+05:30"
     description: A Helm chart for Kubernetes
     digest: 13ca258342651471c97a2cd0e7f6574ce49bed4df05349dce658e5e695eac9d8
     name: acute
@@ -73,4 +73,24 @@ entries:
     urls:
     - https://novacaap.github.io/helm-charts/acute-1.0.0.tgz
     version: 1.0.0
-generated: "2026-04-01T16:08:09.16904+05:30"
+  karpenter:
+  - apiVersion: v2
+    appVersion: v1.0.0
+    created: "2026-04-14T11:12:26.35362+05:30"
+    description: A Helm chart for Karpenter provider OCI
+    digest: 2bc249636ed62b879591c81c2513d2c227027d6511598542e90da13e3993d9a2
+    home: https://github.com/oracle/karpenter-provider-oci/
+    keywords:
+    - cluster
+    - node
+    - scheduler
+    - autoscaling
+    - lifecycle
+    name: karpenter
+    sources:
+    - https://github.com/oracle/karpenter-provider-oci/
+    type: application
+    urls:
+    - https://novacaap.github.io/helm-charts/karpenter-1.0.0.tgz
+    version: 1.0.0
+generated: "2026-04-14T11:12:26.348659+05:30"
