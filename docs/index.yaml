@@ -7,7 +7,7 @@ entries:
     description: Flexible chart for deploying apps as Deployment, StatefulSet, Job,
       or CronJob
     digest: e4c712e0a04d704890a6b4cce2193114ffceec3b0c38fecde685ffd8ee260ff6
-    home: https://github.com/novacaap/helm-charts
+    home: https://github.com/khanarshad23/Helm-Chart
     keywords:
     - kubernetes
     - kubernetes-1.33
@@ -23,10 +23,10 @@ entries:
       name: Kalpesh Patel
     name: acute
     sources:
-    - https://github.com/novacaap/helm-charts
+    - https://github.com/khanarshad23/Helm-Chart
     type: application
     urls:
-    - https://novacaap.github.io/helm-charts/acute-1.2.0.tgz
+    - https://khanarshad23.github.io/Helm-Chart/acute-1.2.0.tgz
     version: 1.2.0
   - apiVersion: v2
     appVersion: 1.0.0
@@ -34,7 +34,7 @@ entries:
     description: Flexible chart for deploying apps as Deployment, StatefulSet, Job,
       or CronJob
     digest: f5ab59aca6a94a2e6e00089fa1ed73ff9f487beeca464ea72cb1ce7e6b881d8e
-    home: https://github.com/novacaap/helm-charts
+    home: https://github.com/khanarshad23/Helm-Chart
     keywords:
     - kubernetes
     - helm
@@ -48,10 +48,10 @@ entries:
       name: Kalpesh Patel
     name: acute
     sources:
-    - https://github.com/novacaap/helm-charts
+    - https://github.com/khanarshad23/Helm-Chart
     type: application
     urls:
-    - https://novacaap.github.io/helm-charts/acute-1.1.0.tgz
+    - https://khanarshad23.github.io/Helm-Chart/acute-1.1.0.tgz
     version: 1.1.0
   - apiVersion: v2
     appVersion: 1.0.0
@@ -61,7 +61,7 @@ entries:
     name: acute
     type: application
     urls:
-    - https://novacaap.github.io/helm-charts/acute-1.0.1.tgz
+    - https://khanarshad23.github.io/Helm-Chart/acute-1.0.1.tgz
     version: 1.0.1
   - apiVersion: v2
     appVersion: 1.0.0
@@ -71,7 +71,7 @@ entries:
     name: acute
     type: application
     urls:
-    - https://novacaap.github.io/helm-charts/acute-1.0.0.tgz
+    - https://khanarshad23.github.io/Helm-Chart/acute-1.0.0.tgz
     version: 1.0.0
   karpenter:
   - apiVersion: v2
@@ -91,6 +91,6 @@ entries:
     - https://github.com/oracle/karpenter-provider-oci/
     type: application
     urls:
-    - https://novacaap.github.io/helm-charts/karpenter-1.0.0.tgz
+    - https://khanarshad23.github.io/Helm-Chart/karpenter-1.0.0.tgz
     version: 1.0.0
 generated: "2026-04-14T11:12:26.348659+05:30"
